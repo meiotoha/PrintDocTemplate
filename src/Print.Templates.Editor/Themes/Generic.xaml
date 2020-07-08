@@ -1,0 +1,169 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:section="clr-namespace:Print.Templates.Core.Section;assembly=Print.Templates.Core"
+    xmlns:entry="clr-namespace:Print.Templates.Core.Entry;assembly=Print.Templates.Core"
+    xmlns:core="clr-namespace:Print.Templates.Core;assembly=Print.Templates.Core"
+    xmlns:local="clr-namespace:Print.Templates.Editor">
+
+    <DataTemplate x:Key="HeaderTemplate" DataType="section:HeaderSection">
+        <StackPanel>
+            <GroupBox Header="标题上下空行设置">
+                <Grid DataContext="{Binding BlankLineParameter}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="标题上方空行："/>
+                    <TextBlock Grid.Column="2" Text="标题下方空行："/>
+                    <TextBox Grid.Column="1" Text="{Binding Before,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Column="3" Text="{Binding After,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="单据名称设置">
+                <DataGrid DataContext="{Binding TitleParameter}" ItemsSource="{Binding Items}" CanUserAddRows="False" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="标题名称">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="entry:TitleItem">
+                                    <TextBox Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridComboBoxColumn Header="字号" ItemsSource="{x:Static core:Constants.FontSizes}"  DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValueBinding="{Binding FontSize}"/>
+                        <DataGridComboBoxColumn Header="对齐" ItemsSource="{x:Static core:Constants.Alignments}"  DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValueBinding="{Binding Alignment}"/>
+                        <DataGridCheckBoxColumn Header="加粗" Binding="{Binding  Bold}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox Header="打印项设置">
+                <DataGrid CanUserSortColumns="False" DataContext="{Binding PrintItemParameter}" ItemsSource="{Binding Items}" CanUserAddRows="False" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn  Header="标题" Binding="{Binding Title}"/>
+                        <DataGridTextColumn  Header="内容" Binding="{Binding Content}"/>
+                        <DataGridTemplateColumn Header="序号">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="entry:PrintItem">
+                                    <TextBox Text="{Binding Order,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridComboBoxColumn Header="字号" ItemsSource="{x:Static core:Constants.FontSizes}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValueBinding="{Binding FontSize}"/>
+                        <DataGridComboBoxColumn Header="对齐" ItemsSource="{x:Static core:Constants.Alignments}"  DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValueBinding="{Binding Alignment}"/>
+                        <DataGridCheckBoxColumn Header="内容加粗" Binding="{Binding ContentBold}"/>
+                        <DataGridCheckBoxColumn Header="打印" Binding="{Binding Printable}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="BodyTemplate" DataType="section:BodySection">
+        <StackPanel>
+            <GroupBox Header="单据名称设置">
+                <DataGrid  DataContext="{Binding TitleParameter}" ItemsSource="{Binding Items}" CanUserAddRows="False" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="标题名称">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="entry:TitleItem">
+                                    <TextBox Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridComboBoxColumn Header="字号" ItemsSource="{x:Static core:Constants.FontSizes}"  DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValueBinding="{Binding FontSize}"/>
+                        <DataGridComboBoxColumn Header="对齐" ItemsSource="{x:Static core:Constants.Alignments}"  DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValueBinding="{Binding Alignment}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox Header="打印项设置">
+                <DataGrid CanUserSortColumns="False" DataContext="{Binding PrintItemParameter}" ItemsSource="{Binding Items}" CanUserAddRows="False" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn  Header="内容" Binding="{Binding Content}"/>
+                        <DataGridTemplateColumn Header="序号">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="entry:PrintItem">
+                                    <TextBox Text="{Binding Order,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="宽度">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="entry:PrintItem">
+                                    <TextBox Text="{Binding Width,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="宽度(命令)">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="entry:PrintItem">
+                                    <TextBox Text="{Binding CWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridComboBoxColumn Header="字号" ItemsSource="{x:Static core:Constants.FontSizes}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValueBinding="{Binding FontSize}"/>
+                        <DataGridComboBoxColumn Header="对齐" ItemsSource="{x:Static core:Constants.Alignments}"  DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValueBinding="{Binding Alignment}"/>
+                        <DataGridCheckBoxColumn Header="打印" Binding="{Binding Printable}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="FooterTemplate" DataType="section:FootSection">
+        <StackPanel>
+            <GroupBox Header="打印项设置">
+                <DataGrid CanUserSortColumns="False" DataContext="{Binding PrintItemParameter}" ItemsSource="{Binding Items}" CanUserAddRows="False" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn  Header="标题" Binding="{Binding Title}"/>
+                        <DataGridTextColumn  Header="内容" Binding="{Binding Content}"/>
+                        <DataGridTemplateColumn Header="序号">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="entry:PrintItem">
+                                    <TextBox Text="{Binding Order}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridComboBoxColumn Header="字号" ItemsSource="{x:Static core:Constants.FontSizes}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValueBinding="{Binding FontSize}"/>
+                        <DataGridComboBoxColumn Header="对齐" ItemsSource="{x:Static core:Constants.Alignments}"  DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValueBinding="{Binding Alignment}"/>
+                        <DataGridCheckBoxColumn Header="内容加粗" Binding="{Binding ContentBold}"/>
+                        <DataGridCheckBoxColumn Header="打印" Binding="{Binding Printable}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </StackPanel>
+    </DataTemplate>
+    <Style TargetType="{x:Type local:DocumentEditor}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DocumentEditor}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <TabControl>
+                            <TabItem x:Name="Header" Header="票头区" DataContext="{TemplateBinding Document}" Content="{Binding Header}" ContentTemplate="{StaticResource HeaderTemplate}"/>
+                            <TabItem x:Name="Body"   Header="销售区" DataContext="{TemplateBinding Document}" Content="{Binding Body}"   ContentTemplate="{StaticResource BodyTemplate}"/>
+                            <TabItem x:Name="Footer" Header="票尾区" DataContext="{TemplateBinding Document}" Content="{Binding Footer}" ContentTemplate="{StaticResource FooterTemplate}"/>
+                        </TabControl>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Content" SourceName="Header" Value="{x:Null}">
+                            <Trigger.Setters>
+                                <Setter Property="Visibility" TargetName="Header" Value="Collapsed"/>
+                            </Trigger.Setters>
+                        </Trigger>
+                        <Trigger Property="Content" SourceName="Body" Value="{x:Null}">
+                            <Trigger.Setters>
+                                <Setter Property="Visibility" TargetName="Body" Value="Collapsed"/>
+                            </Trigger.Setters>
+                        </Trigger>
+                        <Trigger Property="Content" SourceName="Footer" Value="{x:Null}">
+                            <Trigger.Setters>
+                                <Setter Property="Visibility" TargetName="Footer" Value="Collapsed"/>
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
